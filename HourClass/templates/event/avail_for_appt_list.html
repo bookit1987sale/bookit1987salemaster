@@ -1,0 +1,23 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <legend>Availability for {{ day }}</legend>
+        <input type="button" class="cancel_btn pointer" value="Back" onclick="window.history.go(-1);"/>
+          <ul class="list-unstyled">
+          {% for obj in object_list %}
+              <li><a href="{% url 'event:client_event_create' obj.start|slugify obj.staff obj.service obj.client obj.ev_type %}">{{ obj.start|date:"f A" }}</a> with {{ obj.staff_name }}</li>
+            {% empty %}
+              <li>No Options For this Day</li>
+          {% endfor %}
+          </ul>
+        <input type="button" class="cancel_btn pointer" value="Back" onclick="window.history.go(-1);"/>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

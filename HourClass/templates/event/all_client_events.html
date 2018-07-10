@@ -1,0 +1,21 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <h3>All Client Events</h3>
+          <ul class="list-unstyled">
+          {% for event in all_events %}
+              <li>{% if event.status %}{% if event.check_for_update %}<a class="gen_alert" href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>{% else %}<a href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>{% endif %}-{{ event.get_service }} with <a href="{{ event.get_client_absolute_url }}">{{ event.get_client_iter }}</a> with {{ event.get_staff }} ({{ event.start }}){% else %}<span class="gen_alert">*</span>{{ event }}{% endif %}</li>
+              {% empty %}
+              <li>No Appointments</li>
+          {% endfor %}
+          </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

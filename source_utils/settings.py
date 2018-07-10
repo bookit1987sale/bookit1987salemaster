@@ -1,0 +1,5 @@
+FIRST_DAY = 1
+
+STAFF_TITLE = "Any Available Staff"
+
+# SHOW_CANCELLED_OCCURRENCES = True

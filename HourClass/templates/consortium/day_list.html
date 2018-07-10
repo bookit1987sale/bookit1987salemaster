@@ -1,0 +1,23 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <h1>Hours of Operation</h1>
+        <p class="lead">
+          <ul class="list-unstyled">
+          {% for day in days %}
+              <li>{% if user.account.is_manager %}<a class="day_nav" href="{% url 'consortium:get_day' day.pk %}">{{ day }}</a>{% else %}{{ day }}{% endif %} {% if day.closed %} Closed{% else %}{{ day.display_schedule }}{% endif %}</li>
+              {% empty %}
+              <li>No Days</li>
+          {% endfor %}
+          </ul>
+        </p>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

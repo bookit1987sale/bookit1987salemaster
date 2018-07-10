@@ -1,0 +1,124 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load tz %}
+{% load staticfiles %}
+{% load custom_tags %}
+
+{% block head_title %}Home{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body_base %}
+
+<main>
+  <div>
+    <section class="jumbotron" style="background-color: #7BC9E3;">
+        <div class="container">
+            {% include "_messages.html" %}
+            {% block caption %}
+            {% if user.is_authenticated and user.is_staff %}
+            <div class="feature-columns row">
+                <div class="col-md text-center">
+                    <div><h3><a class="day_nav go_left" href="{% url 'home_schedule' real_date|sub_one_day %}">prev</a>{{ the_day }}<a class="day_nav go_right" href="{% url 'home_schedule' real_date|add_one_day %}">next</a></h3></div>
+                    <p class="lead">
+                        <ul class="list-unstyled">
+                        {% for event in all_my_events_today %}
+                            <li>{% if event.status %}{% if event.check_for_update %}<a class="gen_alert" href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>{% else %}<a href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>{% endif %}-{{ event.get_service }} with <a href="{{ event.get_client_absolute_url }}">{{ event.get_client_iter }}</a>{% else %}<span class="gen_alert">*</span><span class="{% if event.start > nowr %}now_decor{% endif %}">{{ event }}</span>{% endif %}</li>
+                            {% empty %}
+                            <li>No Appointments</li>
+                        {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+                {% if user.is_authenticated and user.account.is_manager %}
+                <div class="col-md text-center">
+                    <h3>Staff Schedule</h3>
+                    <p class="lead">
+                        <ul class="list-unstyled">
+                        {% for event in all_staff_events_today %}
+                            <li>{% if event.status %}{% if event.check_for_update %}<span class="gen_alert">{{ event.get_freindly_times }}</span>{% else %}<a href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>{% endif %}-{{ event.get_service }} for <a href="{{ event.get_client_absolute_url }}">{{ event.get_client_iter }}</a> with {{ event.get_staff }}{% else %}<span class="gen_alert">*</span>{{ event }}{% endif %}</li>
+                            {% empty %}
+                            <li>No Appointments</li>
+                        {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            {% elif user.is_authenticated %}
+            <h1>Welcome {{ this_user.first_name }}!</h1>
+            <p class="lead">
+                We are happy to book you in for an appointment with us. Please veiw our calendar or select one of our associates.
+            </p>
+            <div class="col-md text-center">
+            {% if my_personal_booking %}
+                <h4>My next appointments are:</h4>
+                <ul class="list-unstyled">
+                {% for event in my_personal_booking %}
+                    <li>{{ event.get_service }} with {{ event.get_staff }} - {{ event.start }}!</li>
+                {% endfor %}
+                </ul>
+                <h6>We look forward to seeing you!</h6>
+            {% endif %}
+            </div>
+            {% else %}
+            <h1 class="text-center">{% blocktrans %}Welcome to {{ company }}{% endblocktrans %}</h1>
+            <h3 class="text-center">
+                {{ company.caption }}
+            </h3>
+            {% url "account_login" as login_url %}
+            {% url "account_signup" as signup_url %}
+            <p class="mb-5 lead text-center">{% blocktrans %}You can <a href="{{ login_url }}" class="btn btn-secondary">Log In</a> or <a href="{{ signup_url }}" class="btn btn-primary">Sign Up</a> to use our site.{% endblocktrans %}</p>
+            <p class="lead text-center">
+                {{ company.bio }}
+            </p>
+            {% endif %}
+            {% endblock %}
+        </div>
+        <div id="content-body" class="container">
+            {% block main_theme %}
+            {% if not user.is_staff and company %}
+                <div class="feature-columns row">
+                    <div class="col-md text-center">
+                        <div class="desc">
+                            <b>{{ company }} Services</b><br />
+                            <ul class="list-unstyled">
+                            {% for branch in service_branches %}
+                            <li>{{ branch }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md text-center">
+                        <div class="desc">
+                            <b>Meet our Staff</b><br />
+                            <ul class="list-unstyled">
+                            {% for member in staff %}
+                            <li>{{ member.get_friendly_name }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md text-center">
+                        <div class="desc">
+                            <b>Popular Services</b><br />
+                            <ul class="list-unstyled">
+                            {% for service in popular_services %}
+                            <li>{{ service.retail_service }}<i> only </i>${{ service.get_tot_service_cost }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {% endblock %}
+    </section>
+  </div>
+</main>
+{% endblock %}
+{% block footer %}
+    {% include "_footer.html" %}
+{% endblock %}
+

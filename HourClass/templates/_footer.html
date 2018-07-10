@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% now "Y" as current_year %}
+<footer class="footer">
+	<div class="container" style="background-color: transparent;">
+		<div class="copyright text-center"><span>&copy; {{ current_year }} {{ company }}</span><span>{{ company.company_phone }}</span><span>{{ company.email }}</span></div>
+	</div>
+</footer>

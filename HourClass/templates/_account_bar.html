@@ -1,0 +1,65 @@
+{% load i18n %}
+{% load account_tags %}
+
+
+<ul class="navbar-nav" style="background-color: transparent;">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "home" %}">{% trans "Home" %}</a>
+    </li>
+    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and not request.user.is_staff %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event:add_service_type' request.user.account.pk  'for_client' %}">{% trans "Book Apptointment" %}</a>
+    </li>
+    {% endif %}
+    {% if user.is_staff %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event:add_service_type' request.user.account.pk 'for_staff' %}">{% trans "Book My Appt" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event:start_new_client_appt' %}">{% trans "Book Client Appt" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event:my_event_list' %}">{% trans "Calendar" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'staff:all_staff' %}">{% trans "Staff" %}</a>
+    </li>
+    {% endif %}
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'service:service_list' %}">{% trans "Services" %}</a>
+    </li>
+    {% if user.account.is_manager %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'consortium:company_details' 1 %}">{% trans "Company" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event:all_event_list' %}">{% trans "All CL Appts" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'consortium:work_days' %}">{% trans "Open/Time" %}</a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account_settings' %}">{% trans "Settings" %}</a>
+    </li>
+        {% if request.user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+            </li>
+        {% endif %}
+    <li class="nav-item">
+        <a class="nav-link" id="account_logout" href="{% url 'account_logout' %}">{% trans "Log out" %}</a>
+    </li>
+    {% else %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
+    {% if ACCOUNT_OPEN_SIGNUP %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></li>
+    {% endif %}
+    {% endif %}
+</ul>
+
+<form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
+    {% csrf_token %}
+</form>

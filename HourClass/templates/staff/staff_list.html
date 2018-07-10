@@ -1,0 +1,21 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <h3>All Staff</h3>
+          <ul class="list-unstyled">
+          {% for staff in all_staff %}
+              <li>{% if not user.is_active %}Not active {% endif %}{% if user.account.is_manager %}<a class="day_nav" href="{{ staff.get_absolute_url }}">{{ staff }}</a>{% else %}{{ staff }}{% endif %}<a href="{% url 'staff_sced:staff_avail' staff.slug %}"> availability</a></li>
+              {% empty %}
+              <li>No Staff Logged</li>
+          {% endfor %}
+          </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

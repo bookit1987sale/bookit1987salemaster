@@ -1,0 +1,33 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap %}
+
+{% block head_title %}{{ title }}{% endblock %}
+
+{% block caption %}
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <legend>{{ title }} {{ add }}{% if titleb %}<br />{{ titleb }}{% endif %}{% if titlec %}<br />{{ titlec }}{% endif %}{% if titled %}<br />{{ titled }}{% endif %}
+                {% block edit %}{% endblock %}
+                {% if object.extra %}
+                    {{ object.extra }}
+                {% endif %}
+            </legend>      
+            <div class="list-group">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div id="formWarning">{{ form_warning }}</div>
+                    <input type="button" class="cancel_btn pointer" value="Back" onclick="window.history.go(-1);"/>
+                    <input type="submit" class="submit_btn pointer" value="{{ button }}" />
+                </form>
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

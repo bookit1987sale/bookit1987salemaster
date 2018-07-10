@@ -1,0 +1,40 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block head_title %}{{ title }}{% endblock %}
+
+{% block caption %}
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <legend>{{ object.get_full_name }}</a>
+                {% block edit %}{% endblock %}
+                {% if object.extra %}
+                    {{ object.extra }}
+                {% endif %}
+            </legend>      
+            <div class="list-group">
+                {% if object.street_address %}
+                {{ object.get_address }}<br />
+                {% endif %}
+                {% if object.spouse_name %}
+                {{ object.spouse_name }}<br />
+                {% endif %}
+                <div>{{ object.first_name }}'s Appointment History</div>
+                <br />
+                <ul class="list-unstyled">
+                {% for event in client_events %}
+                    <li>{{ event.get_event_title }} with {{ event.get_staff }}</li>
+                    {% empty %}
+                    <li>No Appointments</li>
+                {% endfor %}
+                </ul>
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

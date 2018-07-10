@@ -1,0 +1,21 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <h1>Our Services</h1>
+          <ul class="list-unstyled">
+          {% for obj in object_list %}
+              <li>{% if obj.service_no_longer_available %}NA {% endif %}{% if not obj.staff_trained_for %} (No Trained Staff) {% endif %}{{ retail_service }}{% if request.user.account.is_manager %}<a href="{% url 'service:service_update' obj.slug %}">{{ obj }} ~ <a href="{% url 'service:service_create' %}"> Add Service</a></a>{% else %}{{ obj }}{% endif %}</li>
+              {% empty %}
+              <li>No Appointments</li>
+          {% endfor %}
+          </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

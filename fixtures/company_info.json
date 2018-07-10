@@ -1,0 +1,16 @@
+[
+    {
+        "pk": 1,
+        "model": "consortium.company",
+        "fields": {
+            "company": "My Company",
+            "company_phone": "610 555 1234",
+            "email": "help@myemail.com",
+            "owner": "Someone Special",
+            "street_address": "123 Any Street",
+            "city": "Hometown",
+            "state": "PA",
+            "zip_code": 12345
+        }
+    }
+]

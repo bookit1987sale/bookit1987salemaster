@@ -1,0 +1,59 @@
+[
+    {
+        "pk": 1,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Monday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Tuesday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "sites.site",
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Wednesday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Thursday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Friday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Saturday",
+            "closed":"True"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "consortium.hours",
+        "fields": {
+            "day": "Sunday",
+            "closed":"True"
+        }
+    }
+]

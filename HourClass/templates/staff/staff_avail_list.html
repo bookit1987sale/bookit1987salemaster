@@ -1,0 +1,22 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+      <h3>{{ staff.get_friendly_name }}'s Availability {% if user == staff.base_account.user or user.account.is_manager %}{% if avail %}<a class="day_nav" href="{% url 'staff_sced:avail_create' staff.pk %}">Add</a>{% endif %}{% endif %}</h3>
+          <ul class="list-unstyled">
+          {% for day in staff_avail %}
+              <li>{% if user == staff.base_account.user or user.account.is_manager %}<a class="day_nav" href="{{ day.get_absolute_url }}">{% if day.not_avail %}{{ day.day }} - Day Off{% else %}{{ day.display_schedule }}{% endif %}</a>{% else %}{% if day.not_avail %}{{ day.day }} - Day Off{% else %}{{ day.display_schedule }}{% endif %}{% endif %}
+              </li>
+              {% empty %}
+              <li>{% if user == staff.base_account.user or user.account.is_manager %}<a class="day_nav" href="{% url 'staff_sced:avail_create' staff.pk %}">Not Entered Yet</a>{% else %}Not Entered Yet{% endif %}</li>
+          {% endfor %}
+          </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "homepage.html" %}
+
+{% load i18n %}
+
+{% block caption %}
+  <div class="feature-columns row">
+    <div class="col-md text-center">
+        <h3>My Tasks</h3>
+          <ul class="list-unstyled">
+          {% for event in my_tasks %}
+              <li><a class="gen_alert" href="{{ event.get_absolute_url }}">{{ event.get_freindly_times }}</a>-{{ event.get_service }} with <a href="{{ event.get_client_absolute_url }}">{{ event.get_client_iter }}</a> ({{ event.start }})</li>
+              {% empty %}
+              <li>No Appointments</li>
+          {% endfor %}
+          </ul>
+    </div>
+    <div class="col-md text-center">
+        <h3>My Requests</h3>
+          <ul class="list-unstyled">
+          {% for re_event in my_other_events %}
+              <li><a href="{{ re_event.get_absolute_url }}">{{ re_event.staff_activity }}</a> ~{% if re_event.cancelled %}<span class="gen_alert"> Cancelled</span>{% elif not re_event.confirmed %} Requested{% endif %}<br />{{ re_event.get_my_request }}</li>
+              {% empty %}
+              <li>No Pending Requests</li>
+          {% endfor %}
+          </ul>
+    </div>
+    <div class="col-md text-center">
+        <h3>My Availability</h3>
+            <ul class="list-unstyled">
+            {% for event in my_weekly_avail %}
+                <li>{{ event.display_schedule }}</li>
+                {% empty %}
+                <li>Not Entered Yet</li>
+            {% endfor %}
+            </ul>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}
