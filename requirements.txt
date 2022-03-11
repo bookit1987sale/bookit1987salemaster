@@ -31,7 +31,7 @@ idna==2.6
 jsonfield==2.0.2
 oauthlib==2.0.7
 phonenumberslite==8.9.1
-Pillow==5.0.0
+Pillow==9.0.1
 pinax-cli==1.1.1
 pinax-eventlog==2.0.3
 pinax-templates==1.0.4
